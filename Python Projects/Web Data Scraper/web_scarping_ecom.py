@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-data = {"Title" : [], "Price" : [], "Stock" : []}
+data = {"Title" : [], "Price" : []}
 
 url = "https://books.toscrape.com/"
 

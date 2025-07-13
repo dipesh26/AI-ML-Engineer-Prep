@@ -78,5 +78,8 @@ This project requires an active **[OpenWeatherMap](https://openweathermap.org)**
 ### 👨‍💻 Owner & Maintainer
 Made with ❤️ by **Dipesh Mahajan**
 
+### 📃 License
+- This project is open-source and free to use for learning and non-commercial purposes
+
 ### ⭐️ Show Your Support
 If this project helped you, give it a ⭐️

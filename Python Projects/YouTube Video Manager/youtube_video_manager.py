@@ -1,6 +1,6 @@
 import json
 import pandas as pd
-import csv
+import os
 
 def load_data():
     try:
@@ -80,6 +80,7 @@ def export_data(videos):
         df = pd.DataFrame.from_dict(videos)
         df.to_csv(filename, index=False)
         print(f"\n✅ Videos successfully exported to '{filename}'")
+        os.startfile(filename)
     except Exception as e:
         print(f"\n❌ Error while exporting: {e}")
     

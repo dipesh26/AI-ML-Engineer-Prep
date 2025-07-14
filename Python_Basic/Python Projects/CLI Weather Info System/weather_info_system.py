@@ -13,19 +13,11 @@ def get_weather(city, api_key):
         return
     
     try:
-        print("DEBUG - API Key:", api_key)
-
         url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
         response = requests.get(url)
         data = response.json()
         # print(data)
-        print("\nDEBUG - API Response:")
-        print(data)  # 👈 Print full response to see what's going wrong
-
-        if response.status_code != 200 or "main" not in data:
-            print(f"❌ API Error: {data.get('message', 'Unknown error')}")
-            return
 
         temp = data["main"]["temp"]
         humidity = data["main"]["humidity"]

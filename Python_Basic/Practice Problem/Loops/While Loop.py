@@ -1,38 +1,38 @@
 # 1: Simple While Loop
-# i = 0
-# while (i<=10):
-#     print(i)
-#     i += 1
-# print("While loop End's")
+i = 0
+while (i<=10):
+    print(i)
+    i += 1
+print("While loop End's")
 
 # 2: Guessing Game
 # Create a program that allows the user to guess a secret number between 1 and 100.
 # The program should keep prompting the user until they guess the correct number.
-# import random
-# secret_number = random.randrange(1,101)
-# print(secret_number)
-# while True:
-#     guess_number = int(input("Enter the number b/w 1 to 100: "))
-#     if guess_number >= 1 and guess_number <= 100:
-#         if guess_number == secret_number:
-#             print("✅ Congratulations! You guessed the correct number.")
-#             break
-#         else:
-#             print("❌ Wrong Number, Try again!\n")
-#     else:
-#         print("❌ Invlaid Number!")
-#         print("Please Enter the Number between 1 to 100\n")
+import random
+secret_number = random.randrange(1,101)
+print(secret_number)
+while True:
+    guess_number = int(input("Enter the number b/w 1 to 100: "))
+    if guess_number >= 1 and guess_number <= 100:
+        if guess_number == secret_number:
+            print("✅ Congratulations! You guessed the correct number.")
+            break
+        else:
+            print("❌ Wrong Number, Try again!\n")
+    else:
+        print("❌ Invlaid Number!")
+        print("Please Enter the Number between 1 to 100\n")
 
 # 3: Fibonacci Sequence
 # Write a program to generate the Fibonacci sequence up to a given number of terms.
-# num = int(input("Enter the Number: "))
-# a = 0
-# b = 1
-# count = 0
-# while count < num:
-#     print(a, end=" ")
-#     a, b = b, a+b
-#     count += 1
+num = int(input("Enter the Number: "))
+a = 0
+b = 1
+count = 0
+while count < num:
+    print(a, end=" ")
+    a, b = b, a+b
+    count += 1
 
 # 4: Rock, Paper, Scissors Game
 # Create a program that allows two players to play a game of Rock, Paper, Scissors.

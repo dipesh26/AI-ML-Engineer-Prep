@@ -63,10 +63,24 @@ def get_matrices(option):
         return None, None
     return A, B
 
+def load_single_matrix(option):
+    if option == 'm':
+        A = input_matrix("A")
+    elif option == 'p':
+        A = load_matrix("A")
+    else:
+        print("❗Invalid input source option.")
+        return None
+    return A
+
 def display_result(A, B, add):
     print(f"\nMatrix A:\n{A}\n")
     print(f"\nMatrix B:\n{B}\n")
     print(f"\nResult:\n{add}")
+
+def display_single_result(A, add):
+    print(f"\nMatrix A:\n{A}\n")
+    print(f"\nResult:\n{add}")    
 
 def add_matrix(option):
     A, B = get_matrices(option)
@@ -77,41 +91,42 @@ def add_matrix(option):
         print("\n❗Matrices must be of the same dimensions.")
 
 def sub_matrix(option):
-    A, B = get_two_matrices()
+    A, B = get_matrices(option)
     if A.shape == B.shape:
         sub = np.subtract(A, B)
-        print(f"\nResult:\n{sub}")
+        display_result(A, B, sub)
     else:
         print("\n❗Matrices must be of the same dimensions.")
 
 def multi_matrix(option):
-    A, B = get_two_matrices()
-    if A.shape == B.shape:
+    A, B = get_matrices(option)
+    if A.shape[1] == B.shape[0]:
         multi = A @ B
-        print(f"\nResult:\n{multi}")
+        display_result(A, B, multi)
     else:
         print("\n❗Matrices must be of the same dimensions.")
 
 def transpose(option):
-    A = input_matrix("A")
-    print(f"\nResult:\n{A.T}")
+    A = load_single_matrix(option)
+    trans = A.T
+    display_single_result(A, trans)
 
 def determinant(option):
-    A = input_matrix("A")
+    A = load_single_matrix(option)
     if A.shape[0] != A.shape[1]:
         print("\n❗Matrix must be square for this operation.")
     else:
         deter = np.linalg.det(A)
-        print(f"\nResult:\n{deter}")
+        display_single_result(A, deter)
 
 def inverse(option):
-    A = input_matrix("A")
+    A = load_single_matrix(option)
     if A.shape[0] != A.shape[1]:
         print("\n❗Matrix must be square for this operation.")
     else:
         try:
             inverse = np.linalg.inv(A)                        
-            print(f"\nResult:\n{inverse}")
+            display_single_result(A, inverse)
         except np.linalg.LinAlgError:
             print("\n❌ Matrix is singular and cannot be inverted.")        
 

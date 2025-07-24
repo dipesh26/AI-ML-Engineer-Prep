@@ -29,12 +29,12 @@ def input_matrix(name):
 
 def load_matrix(name):
     while True:
-        path = input(f"\nEnter the path of matrix {name} : ").strip()
+        path = input(f"\nEnter the path of matrix {name}: ").strip()
         if not path:
             print("\n❌ Path can't be empty.")
             continue
         try:
-            matrix = np.loadtxt(path)
+            matrix = np.loadtxt(path, delimiter=',')
             return matrix
         except Exception as e:
             print(f"\n❌ Invalid File Path or File Error: {e}")          
@@ -44,13 +44,15 @@ def get_two_matrices():
     B = input_matrix("B")
     if A is None or B is None:
         return None, None    
+    print("\n✅ Matrices loaded successfully!")
     return A, B
 
 def get_path():
     A = load_matrix("A")
     B = load_matrix("B")
     if A is None or B is None:
-        return None, None    
+        return None, None
+    print("\n✅ Matrices loaded successfully!")        
     return A, B
 
 def get_matrices(option):
@@ -73,71 +75,83 @@ def load_single_matrix(option):
         return None
     return A
 
-def display_result(A, B, add):
-    print(f"\nMatrix A:\n{A}\n")
-    print(f"\nMatrix B:\n{B}\n")
-    print(f"\nResult:\n{add}")
+def display_result(A, B, Oops, name):
+    print(f"\n📌 Matrix Operation: {name}")
+    print(f"\n📥 Matrix A:\n{A}")
+    print(f"\n📥 Matrix B:\n{B}")
+    print(f"\n🔷 {name} of Matrix A & B:\n{Oops}")
+    print(f"{"-"*20}")
 
-def display_single_result(A, add):
-    print(f"\nMatrix A:\n{A}\n")
-    print(f"\nResult:\n{add}")    
+def display_single_result(A, Oops, name):
+    print(f"\n📌 Matrix Operation: {name}")
+    print(f"\nV📥 Matrix A:\n{A}")
+    print(f"\n✅ Result:")    
+    print(f"\n🔷 {name} of Matrix A:\n{Oops}")
 
 def add_matrix(option):
+    name = "Addition"
     A, B = get_matrices(option)
     if A.shape == B.shape:
         add = np.add(A, B)
-        display_result(A, B, add)
+        display_result(A, B, add, name)
     else:
         print("\n❗Matrices must be of the same dimensions.")
 
 def sub_matrix(option):
+    name = "Subtraction"
     A, B = get_matrices(option)
     if A.shape == B.shape:
         sub = np.subtract(A, B)
-        display_result(A, B, sub)
+        display_result(A, B, sub, name)
     else:
         print("\n❗Matrices must be of the same dimensions.")
 
 def multi_matrix(option):
+    name = "Multiplication"
     A, B = get_matrices(option)
     if A.shape[1] == B.shape[0]:
         multi = A @ B
-        display_result(A, B, multi)
+        display_result(A, B, multi, name)
     else:
         print("\n❗Matrices must be of the same dimensions.")
 
 def transpose(option):
+    name = "Transpose"
     A = load_single_matrix(option)
     trans = A.T
-    display_single_result(A, trans)
+    display_single_result(A, trans, name)
 
 def determinant(option):
+    name = "Determinant"
     A = load_single_matrix(option)
     if A.shape[0] != A.shape[1]:
         print("\n❗Matrix must be square for this operation.")
     else:
         deter = np.linalg.det(A)
-        display_single_result(A, deter)
+        display_single_result(A, deter, name)
 
 def inverse(option):
+    name = "Inverse"
     A = load_single_matrix(option)
     if A.shape[0] != A.shape[1]:
         print("\n❗Matrix must be square for this operation.")
     else:
         try:
             inverse = np.linalg.inv(A)                        
-            display_single_result(A, inverse)
+            display_single_result(A, inverse, name)
         except np.linalg.LinAlgError:
             print("\n❌ Matrix is singular and cannot be inverted.")        
 
 def main():
-    print("\n========== 🧮 Matrix Operations CLI Tool 🧮 ==========")
+    print("\n","="*10,"🧮 Matrix Operations CLI Tool 🧮","="*10)
     while True:
-        print("\n[1] Add [2] Subtract [3] Multiply [4] Transpose [5] Determinant [6] Inverse [7] Exit")
+        print("\n📘 Available Operations:")
+        print("  [1] ➕  Add\n  [2] ➖  Subtract\n  [3] ✖️  Multiply\n  [4] 🔁  Transpose\n  [5] 🧮  Determinant\n  [6] 🔄  Inverse\n  [7] ❌  Exit\n")
         try:
-            choice = int(input("Choose an operation☝️ : ").strip())
-            print("\n[m] Manually [p] Path")
-            option = str(input("choose the Option☝️ : ").strip()).lower()
+            choice = int(input("Select an Operation ⬆️  : ").strip())
+            print("\n🔹 Select Input Method:")
+            print("   [m] ⌨️  Manually\n   [p] 📂  From File Path\n")
+            option = str(input("choose the Option ⬆️  : ").strip()).lower()
             if option not in ['m', 'p']:
                 print("❗Choose Valid option!")
                 continue

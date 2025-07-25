@@ -1,4 +1,5 @@
 import numpy as np
+from itertools import zip_longest
 
 def input_matrix(name):
     while True:
@@ -65,6 +66,22 @@ def display_single_result(Oops_1, Oops_2, name):
     print(f"\n🔷 {name} of Matrix A:\n\n{Oops_1}")
     print(f"\n🔷 {name} of Matrix B:\n\n{Oops_2}")
     print(f"\n{"-"*30}")
+
+def print_matrix_side_by_side(A, B):
+    # Convert each row to string
+    rows_a = [np.array2string(row, precision=2, separator=' ') for row in A]
+    rows_b = [np.array2string(row, precision=2, separator=' ') for row in B]
+
+    # Find max width of the rows in A and B
+    max_width_a = max(len(row) for row in rows_a)
+    max_width_b = max(len(row) for row in rows_b)
+    gap = 4 # Space between matrices
+
+    print("\n📥 Matrix A".ljust(max_width_a + gap) + "📥 Matrix B")
+    print("-" * (max_width_a + gap + max_width_b))
+
+    for row_a, row_b in zip_longest(rows_a, rows_b, fillvalue=' ' * 5):
+        print(row_a.ljust(max_width_a + gap) + row_b)
 
 def add_matrix(A, B):
     name = "Addition"
@@ -137,18 +154,15 @@ def main():
             A, B = get_two_matrices()
         elif option == 'p':
             A, B = get_path()
+        elif option == '8':
+            print("\n===== Thanks for Visiting. =====\n")
+            exit()
         else:
             print("\n❗Invalid input Method.")   
             continue
 
         while True:
-            print("\n📥 Matrix A".ljust(15) + "📥 Matrix B")
-            print("-" * 28)
-            for row_a, row_b in zip(A, B):
-                str_a = np.array2string(row_a, precision=2, separator=' ', max_line_width=100)
-                str_b = np.array2string(row_b, precision=2, separator=' ', max_line_width=100)
-                print(str_a.ljust(15) + str_b) 
-
+            print_matrix_side_by_side(A, B)
             print("\n📘 Available Operations:")
             print("  [1] ➕  Add\n  [2] ➖  Subtract\n  [3] ✖️  Multiply\n  [4] 🔁  Transpose\n  [5] 🧮  Determinant\n  [6] 🔄  Inverse\n  [7] 📥 New Matrices\n  [8] ❌  Exit\n")
             try:

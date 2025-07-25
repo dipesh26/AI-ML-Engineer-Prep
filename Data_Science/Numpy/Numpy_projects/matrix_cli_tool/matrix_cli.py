@@ -1,6 +1,7 @@
 import numpy as np
 from itertools import zip_longest
 
+# Takes user input Manually.
 def input_matrix(name):
     while True:
         user_input = input(f"\nEnter dimensions of matrix {name} (rows cols): ").strip()
@@ -28,6 +29,7 @@ def input_matrix(name):
         except ValueError:
             print("\n❌ Invalid Input! Please enter valid numbers.\n")
 
+# Takes user input through File Path.
 def load_matrix(name):
     while True:
         path = input(f"\nEnter the path of matrix {name}: ").strip()
@@ -39,6 +41,7 @@ def load_matrix(name):
             return matrix
         except Exception as e:
             print(f"\n❌ Invalid File Path or File Error: {e}")          
+
 
 def get_two_matrices():
     A = input_matrix("A")
@@ -57,29 +60,22 @@ def get_path():
     return A, B
 
 def display_result(Oops, name):
-    # print(f"\n📌 Matrix Operation: {name}")
     print(f"\n🔷 {name} of Matrix A & B:\n\n{Oops}")
     print(f"\n{"-"*30}")
 
 def display_single_result(Oops_1, Oops_2, name):
-    # print(f"\n📌 Matrix Operation: {name}") 
     print(f"\n🔷 {name} of Matrix A:\n\n{Oops_1}")
     print(f"\n🔷 {name} of Matrix B:\n\n{Oops_2}")
     print(f"\n{"-"*30}")
 
 def print_matrix_side_by_side(A, B):
-    # Convert each row to string
     rows_a = [np.array2string(row, precision=2, separator=' ') for row in A]
     rows_b = [np.array2string(row, precision=2, separator=' ') for row in B]
-
-    # Find max width of the rows in A and B
     max_width_a = max(len(row) for row in rows_a)
     max_width_b = max(len(row) for row in rows_b)
-    gap = 4 # Space between matrices
-
+    gap = 4 
     print("\n📥 Matrix A".ljust(max_width_a + gap) + "📥 Matrix B")
     print("-" * (max_width_a + gap + max_width_b))
-
     for row_a, row_b in zip_longest(rows_a, rows_b, fillvalue=' ' * 5):
         print(row_a.ljust(max_width_a + gap) + row_b)
 
@@ -143,6 +139,7 @@ def inverse(A, B):
 
 def main():
     print("\n","="*10,"🧮 Matrix Operations CLI Tool 🧮","="*10)
+    # ------------- Outer loop -------------
     while True:
         print("\n🔹 Select Input Method:")
         print("   [m] ⌨️  Manually\n   [p] 📂 From File Path\n")
@@ -161,6 +158,7 @@ def main():
             print("\n❗Invalid input Method.")   
             continue
 
+        # ------------- Inner loop -------------
         while True:
             print_matrix_side_by_side(A, B)
             print("\n📘 Available Operations:")

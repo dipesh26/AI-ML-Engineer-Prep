@@ -55,26 +55,22 @@ def get_path():
     print("\n✅ Matrices loaded successfully!")        
     return A, B
 
-def display_result(A, B, Oops, name):
-    print(f"\n📌 Matrix Operation: {name}")
-    print(f"\n📥 Matrix A:\n{A}")
-    print(f"\n📥 Matrix B:\n{B}")
-    print(f"\n🔷 {name} of Matrix A & B:\n{Oops}")
+def display_result(Oops, name):
+    # print(f"\n📌 Matrix Operation: {name}")
+    print(f"\n🔷 {name} of Matrix A & B:\n\n{Oops}")
     print(f"\n{"-"*30}")
 
-def display_single_result(A, B, Oops_1, Oops_2, name):
-    print(f"\n📌 Matrix Operation: {name}")
-    print(f"\n📥 Matrix A:\n{A}")
-    print(f"\n📥 Matrix B:\n{B}")   
-    print(f"\n🔷 {name} of Matrix A:\n{Oops_1}")
-    print(f"\n🔷 {name} of Matrix B:\n{Oops_2}")
+def display_single_result(Oops_1, Oops_2, name):
+    # print(f"\n📌 Matrix Operation: {name}") 
+    print(f"\n🔷 {name} of Matrix A:\n\n{Oops_1}")
+    print(f"\n🔷 {name} of Matrix B:\n\n{Oops_2}")
     print(f"\n{"-"*30}")
 
 def add_matrix(A, B):
     name = "Addition"
     if A.shape == B.shape:
         add = np.add(A, B)
-        display_result(A, B, add, name)
+        display_result(add, name)
     else:
         print("\n❗Matrices must be of the same dimensions.")
 
@@ -82,7 +78,7 @@ def sub_matrix(A, B):
     name = "Subtraction"
     if A.shape == B.shape:
         sub = np.subtract(A, B)
-        display_result(A, B, sub, name)
+        display_result(sub, name)
     else:
         print("\n❗Matrices must be of the same dimensions.")
 
@@ -90,7 +86,7 @@ def multi_matrix(A, B):
     name = "Multiplication"
     if A.shape[1] == B.shape[0]:
         multi = A @ B
-        display_result(A, B, multi, name)
+        display_result(multi, name)
     else:
         print("\n❗Matrix multiplication not possible. Columns of A must match rows of B.")
 
@@ -98,7 +94,7 @@ def transpose(A, B):
     name = "Transpose"
     trans_A = A.T
     trans_B = B.T
-    display_single_result(A, B, trans_A, trans_B, name)
+    display_single_result(trans_A, trans_B, name)
 
 def determinant(A, B):
     name = "Determinant"
@@ -108,7 +104,7 @@ def determinant(A, B):
     else:
         deter_A = np.linalg.det(A)
         deter_B = np.linalg.det(B)
-        display_single_result(A, B, deter_A, deter_B, name)
+        display_single_result(deter_A, deter_B, name)
 
 def inverse(A, B):
     name = "Inverse"
@@ -126,24 +122,33 @@ def inverse(A, B):
         except np.linalg.LinAlgError:
             inverse_A = "❌ Matrix B is singular"
         
-        display_single_result(A, B, inverse_A, inverse_B, name)
+        display_single_result(inverse_A, inverse_B, name)
 
 def main():
     print("\n","="*10,"🧮 Matrix Operations CLI Tool 🧮","="*10)
     while True:
         print("\n🔹 Select Input Method:")
-        print("   [m] ⌨️  Manually\n   [p] 📂  From File Path\n")
+        print("   [m] ⌨️  Manually\n   [p] 📂 From File Path\n")
         option = str(input("choose the Option ⬆️  : ").strip()).lower()
-        if option == 'm':
+        if not option:
+            print("\n❗Input method can't be empty.")
+            continue
+        elif option == 'm':
             A, B = get_two_matrices()
         elif option == 'p':
             A, B = get_path()
         else:
-            print("❗Invalid input source option.")
-        if A is None or B is None:    
+            print("\n❗Invalid input Method.")   
             continue
 
         while True:
+            print("\n📥 Matrix A".ljust(15) + "📥 Matrix B")
+            print("-" * 28)
+            for row_a, row_b in zip(A, B):
+                str_a = np.array2string(row_a, precision=2, separator=' ', max_line_width=100)
+                str_b = np.array2string(row_b, precision=2, separator=' ', max_line_width=100)
+                print(str_a.ljust(15) + str_b) 
+
             print("\n📘 Available Operations:")
             print("  [1] ➕  Add\n  [2] ➖  Subtract\n  [3] ✖️  Multiply\n  [4] 🔁  Transpose\n  [5] 🧮  Determinant\n  [6] 🔄  Inverse\n  [7] 📥 New Matrices\n  [8] ❌  Exit\n")
             try:

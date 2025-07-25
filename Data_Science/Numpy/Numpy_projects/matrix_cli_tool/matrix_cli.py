@@ -92,7 +92,7 @@ def multi_matrix(A, B):
         multi = A @ B
         display_result(A, B, multi, name)
     else:
-        print("\n❗Matrices must be of the same dimensions.")
+        print("\n❗Matrix multiplication not possible. Columns of A must match rows of B.")
 
 def transpose(A, B):
     name = "Transpose"
@@ -143,24 +143,26 @@ def main():
         if A is None or B is None:    
             continue
 
-        print("\n📘 Available Operations:")
-        print("  [1] ➕  Add\n  [2] ➖  Subtract\n  [3] ✖️  Multiply\n  [4] 🔁  Transpose\n  [5] 🧮  Determinant\n  [6] 🔄  Inverse\n  [7] ❌  Exit\n")
-        try:
-            choice = int(input("Select an Operation ⬆️  : ").strip())
-            print("\n🔹 Select Input Method:")
-            match choice:
-                case 1: add_matrix(A, B)
-                case 2: sub_matrix(A, B)
-                case 3: multi_matrix(A, B)
-                case 4: transpose(A, B)
-                case 5: determinant(A, B)
-                case 6: inverse(A, B)
-                case 7:
-                    print("\n===== Thanks for Visiting. =====\n")
-                    break
-                case _: print("\n❌ Invalid Choice!")
-        except ValueError:
-            print("\n❌ Enter only Numbers From [1] - [6]")
+        while True:
+            print("\n📘 Available Operations:")
+            print("  [1] ➕  Add\n  [2] ➖  Subtract\n  [3] ✖️  Multiply\n  [4] 🔁  Transpose\n  [5] 🧮  Determinant\n  [6] 🔄  Inverse\n  [7] 📥 New Matrices\n  [8] ❌  Exit\n")
+            try:
+                choice = int(input("Select an Operation ⬆️  : ").strip())
+                match choice:
+                    case 1: add_matrix(A, B)
+                    case 2: sub_matrix(A, B)
+                    case 3: multi_matrix(A, B)
+                    case 4: transpose(A, B)
+                    case 5: determinant(A, B)
+                    case 6: inverse(A, B)
+                    case 7: 
+                        break  # Break inner loop → go back to input method
+                    case 8:
+                        print("\n===== Thanks for Visiting. =====\n")
+                        exit()
+                    case _: print("\n❌ Invalid Choice!")
+            except ValueError:
+                print("\n❌ Enter only Numbers From [1] - [6]")
 
 if __name__ == "__main__":
     main()

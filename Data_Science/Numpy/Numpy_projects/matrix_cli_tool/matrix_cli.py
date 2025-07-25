@@ -75,6 +75,7 @@ def print_matrix_side_by_side(A, B):
     max_width_b = max(len(row) for row in rows_b)
     gap = 4 
     print("\n📥 Matrix A".ljust(max_width_a + gap) + "📥 Matrix B")
+    print(f"   {str(A.shape).ljust(max_width_a + gap)}{str(B.shape)}")
     print("-" * (max_width_a + gap + max_width_b))
     for row_a, row_b in zip_longest(rows_a, rows_b, fillvalue=' ' * 5):
         print(row_a.ljust(max_width_a + gap) + row_b)
@@ -133,7 +134,7 @@ def inverse(A, B):
         try:
             inverse_B = np.linalg.inv(B)                        
         except np.linalg.LinAlgError:
-            inverse_A = "❌ Matrix B is singular"
+            inverse_B = "❌ Matrix B is singular"
         
         display_single_result(inverse_A, inverse_B, name)
 
@@ -141,6 +142,7 @@ def main():
     print("\n","="*10,"🧮 Matrix Operations CLI Tool 🧮","="*10)
     # ------------- Outer loop -------------
     while True:
+        # Input Method
         print("\n🔹 Select Input Method:")
         print("   [m] ⌨️  Manually\n   [p] 📂 From File Path\n")
         option = str(input("choose the Option ⬆️  : ").strip()).lower()
@@ -160,7 +162,10 @@ def main():
 
         # ------------- Inner loop -------------
         while True:
+            # To print Matrices Side by side.
             print_matrix_side_by_side(A, B)
+
+            # Operations
             print("\n📘 Available Operations:")
             print("  [1] ➕  Add\n  [2] ➖  Subtract\n  [3] ✖️  Multiply\n  [4] 🔁  Transpose\n  [5] 🧮  Determinant\n  [6] 🔄  Inverse\n  [7] 📥 New Matrices\n  [8] ❌  Exit\n")
             try:

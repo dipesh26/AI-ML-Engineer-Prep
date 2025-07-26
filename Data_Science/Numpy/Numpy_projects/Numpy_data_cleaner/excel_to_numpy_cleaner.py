@@ -20,9 +20,9 @@ def normalizing_cleaned_data(cleaned_data):
     
     normalized_data = (cleaned_data - data_min) / (data_max - data_min)
     print("✅ Data Normalized...")
-    return normalized_data, data_max, data_min
+    return normalized_data, data_min, data_max
 
-def denormalizing_data(normalized_data, data_max, data_min):
+def denormalizing_data(normalized_data, data_min, data_max):
     original_data = normalized_data * (data_max - data_min) + data_min
     print("\n✅ Data Denormalized successfully.")
     return original_data
@@ -50,7 +50,7 @@ def main():
             print("\n✅ File loaded...")
             
             cleaned_data = clean_missing_values(load_file)
-            normalized_data, data_max, data_min = normalizing_cleaned_data(cleaned_data)
+            normalized_data, data_min, data_max = normalizing_cleaned_data(cleaned_data)
             
             print("\nNormalized & Cleaned Data:")
             print("--------------------------")
@@ -60,7 +60,7 @@ def main():
             
             option = str(input("\nSee Original Cleaned Data? [y]: ")).strip().lower()
             if option == 'y':
-                original_data = denormalizing_data(normalized_data, data_max, data_min)
+                original_data = denormalizing_data(normalized_data, data_min, data_max)
                 print("\nOriginal Cleaned Data:")
                 print("----------------------")
                 print("\t".join(headers))
@@ -70,7 +70,7 @@ def main():
                 break
             else:
                 print("\n")
-                exit()
+                break
         
         except FileNotFoundError as f:
             print("\n❗",f)

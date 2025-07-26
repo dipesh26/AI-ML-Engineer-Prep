@@ -27,6 +27,11 @@ def denormalizing_data(normalized_data, data_min, data_max):
     print("\n✅ Data Denormalized successfully.")
     return original_data
 
+def save_data(data):
+    file_name = "Noramlized & cleaned data.csv"
+    np.savetxt(file_name, data, delimiter=",")
+    print(f"\n✅ Data Exported successfully to \"{file_name}\".\n")
+
 def main():
     print(f"\n{"="*10} Numpy Data Cleaner {"="*10}")
     while True:
@@ -57,20 +62,30 @@ def main():
             print("\t".join(headers))
             for row in normalized_data:
                 print("\t".join(f"{val:.2f}" for val in row))
-            
-            option = str(input("\nSee Original Cleaned Data? [y]: ")).strip().lower()
-            if option == 'y':
-                original_data = denormalizing_data(normalized_data, data_min, data_max)
-                print("\nOriginal Cleaned Data:")
-                print("----------------------")
-                print("\t".join(headers))
-                for row in original_data:
-                    print("\t".join(f"{val:.2f}" for val in row))
-                print("\n")
-                break
-            else:
-                print("\n")
-                break
+            print("\n---------------------------------")
+            print("🔸[y] See Original Cleaned Data")
+            print("🔸[s] Save to .csv file")
+            print("🔸[e] To Exit")
+            print("---------------------------------")
+            while True:
+                option = str(input("\nSelect the Options ⬆️  [y] [s] [e]: ")).strip().lower()
+                if not option:
+                    print("\n❗ Option Can't be empty.")
+                    continue
+                elif option == 'y':
+                    original_data = denormalizing_data(normalized_data, data_min, data_max)
+                    print("\nOriginal Cleaned Data:")
+                    print("----------------------")
+                    print("\t".join(headers))
+                    for row in original_data:
+                        print("\t".join(f"{val:.2f}" for val in row))
+                    save_data(normalized_data)
+                elif option == 's':
+                    save_data(normalized_data)
+                elif option == 'e':
+                    exit()
+                else:
+                    print("\n❌ Invalid Option!")
         
         except FileNotFoundError as f:
             print("\n❗",f)

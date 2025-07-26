@@ -27,19 +27,26 @@ def denormalizing_data(normalized_data, data_min, data_max):
     print("\n✅ Data Denormalized successfully.")
     return original_data
 
-def save_data(data):
-    file_name = "Noramlized & cleaned data.csv"
-    np.savetxt(file_name, data, delimiter=",")
-    print(f"\n✅ Data Exported successfully to \"{file_name}\".\n")
+def display_data(data, headers):
+    print("--------------------------")
+    print("\t".join(headers))
+    for row in data:
+        print("\t".join(f"{val:.2f}" for val in row))
+
+def save_data(data, headers):
+    file_name = "Normalized & cleaned data.csv"
+    np.savetxt(file_name, data, delimiter=",", header=",".join(headers), comments='', fmt="%.2f")
+    print(f"\n✅ Data Exported successfully to \"{file_name}\".")
 
 def main():
     print(f"\n{"="*10} Numpy Data Cleaner {"="*10}")
     while True:
-        print(f"\n{"-"*30}")
+        print(f"\n{"➖"*20}")
         user_input = input("Enter the File name: ").strip()
         if not user_input:
             print("\n❗File name can't be empty.")
             continue
+        
         try:
             with open(user_input, 'r') as f:
                 headers = f.readline().strip().split(',')
@@ -58,31 +65,37 @@ def main():
             normalized_data, data_min, data_max = normalizing_cleaned_data(cleaned_data)
             
             print("\nNormalized & Cleaned Data:")
-            print("--------------------------")
-            print("\t".join(headers))
-            for row in normalized_data:
-                print("\t".join(f"{val:.2f}" for val in row))
-            print("\n---------------------------------")
-            print("🔸[y] See Original Cleaned Data")
-            print("🔸[s] Save to .csv file")
-            print("🔸[e] To Exit")
-            print("---------------------------------")
+            display_data(normalized_data, headers)
+
+            seen_original = False
+            saved = False
+
             while True:
-                option = str(input("\nSelect the Options ⬆️  [y] [s] [e]: ")).strip().lower()
+                print("\n---------------------------------")
+                if not seen_original:
+                    print("🔸[y] See Original Cleaned Data")
+                if not saved:
+                    print("🔸[s] Save to .csv file")
+                print("🔸[n] New")
+                print("🔸[e] To Exit")
+                print("---------------------------------")
+                
+                option = str(input("\nSelect the Options ⬆️  : ")).strip().lower()
                 if not option:
                     print("\n❗ Option Can't be empty.")
                     continue
-                elif option == 'y':
+                elif option == 'y' and not seen_original:
                     original_data = denormalizing_data(normalized_data, data_min, data_max)
                     print("\nOriginal Cleaned Data:")
-                    print("----------------------")
-                    print("\t".join(headers))
-                    for row in original_data:
-                        print("\t".join(f"{val:.2f}" for val in row))
-                    save_data(normalized_data)
-                elif option == 's':
-                    save_data(normalized_data)
+                    display_data(original_data, headers)
+                    seen_original = True
+                elif option == 's' and not saved:
+                    save_data(normalized_data, headers)
+                    saved = True
+                elif option == 'n':
+                    break
                 elif option == 'e':
+                    print(f"\n{"-"*10} Thank you for Visiting {"-"*10}\n")
                     exit()
                 else:
                     print("\n❌ Invalid Option!")

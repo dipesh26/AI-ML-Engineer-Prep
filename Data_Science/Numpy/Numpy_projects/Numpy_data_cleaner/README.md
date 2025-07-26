@@ -57,7 +57,7 @@ pip install numpy
 Once inside the project folder, run the script using:
 
 ```bash
-python excel_to_numpy_cleaner.py
+python numpy_data_cleaner.py
 ```
 
 Then follow the on-screen instructions in your terminal:

@@ -1,15 +1,26 @@
 import numpy as np
 
-def print_board(board):
+def find_empty(board):
     for i in range(9):
-        if i % 3 == 0 and i != 0:
-            print("-" * 21)
-        
         for j in range(9):
-            if j % 3 == 0 and j != 0:
-                print("|", end=" ")
-            print(board[i][j] if board[i][j] != 0 else ".", end=" ")
-        print()
+            if board[i][j] == 0:
+                return(i, j)
+    return None
+
+def is_valid(board, num, row, col):
+    if num in board[row]:
+        return False
+    
+    if num in board[:, col]:
+        return False
+    
+    start_row = row - row % 3
+    start_col = col - col % 3
+    box = board[start_row:start_row+3, start_col:start_col+3]
+    if num in box:
+        return False
+    
+    return True
 
 def solve_board(board):
     empty = find_empty(board)
@@ -28,27 +39,16 @@ def solve_board(board):
             
     return False
 
-def is_valid(board, num, row, col):
-    if num in board[row]:
-        return False
-    
-    if num in board[:, col]:
-        return False
-    
-    start_row = row - row % 3
-    start_col = col - col % 3
-    box = board[start_row:start_row+3, start_col:start_col+3]
-    if num in box:
-        return False
-    
-    return True
-
-def find_empty(board):
+def print_board(board):
     for i in range(9):
+        if i % 3 == 0 and i != 0:
+            print("-" * 21)
+        
         for j in range(9):
-            if board[i][j] == 0:
-                return(i, j)
-    return None
+            if j % 3 == 0 and j != 0:
+                print("|", end=" ")
+            print(board[i][j] if board[i][j] != 0 else ".", end=" ")
+        print()
 
 def input_sudoku():
     board = []

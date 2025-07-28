@@ -1,17 +1,5 @@
 import numpy as np
 
-board = np.array([
-        [5, 3, 0, 0, 7, 0, 0, 0, 0],
-        [6, 0, 0, 1, 9, 5, 0, 0, 0],
-        [0, 9, 8, 0, 0, 0, 0, 6, 0],
-        [8, 0, 0, 0, 6, 0, 0, 0, 3],
-        [4, 0, 0, 8, 0, 3, 0, 0, 1],
-        [7, 0, 0, 0, 2, 0, 0, 0, 6],
-        [0, 6, 0, 0, 0, 0, 2, 8, 0],
-        [0, 0, 0, 4, 1, 9, 0, 0, 5],
-        [0, 0, 0, 0, 8, 0, 0, 7, 9]
-    ])
-
 def print_board(board):
     for i in range(9):
         if i % 3 == 0 and i != 0:
@@ -62,20 +50,68 @@ def find_empty(board):
                 return(i, j)
     return None
 
-def main():
-    print(f"\n{"="*10} Sudoku Solver {"="*10}\n")
-
-    print("[0] For Empty Cell")
-    for row in range(1, 10):
-        user_input = int(input(f"Enter the {row} row: ").strip())
-        
+def input_sudoku():
+    board = []
+    print("\n🔹 [0] For Empty Cell\n")
     
+    for i in range(9):
+        while True:
+            user_input = input(f"Enter the {i+1} row: ").strip()
+            if not user_input:
+                print("\n❗ Row can't be empty.\n")
+                continue
+            try:
+                row = list(map(int, user_input.split()))
+                if len(row) != 9:
+                    print("\n❗ Each row must have 9 numbers.\n")
+                    continue
+                board.append(row)
+                break
+            except ValueError:
+                print("\n❗ Please enter only numbers.\n")
+    return np.array(board)
+
+def main():
+    print("\n" + "="*10 + " Sudoku Solver " + "="*10)
+    
+    while True:
+        print("\n"+"-"*40)
+        print("🔸 Type [own] to enter your own puzzle.")
+        print("🔸 Type [demo] to use a sample board.")
+        print("-"*40)
+        
+        choice = input("\nChoose the Option ⬆️  : ").strip().lower()
+        if not choice:
+            print("\n❗ Option can't be empty.")
+            continue
+        elif choice == "demo":
+            board = np.array([
+                [5, 3, 0, 0, 7, 0, 0, 0, 0],
+                [6, 0, 0, 1, 9, 5, 0, 0, 0],
+                [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                [8, 0, 0, 0, 6, 0, 0, 0, 3],
+                [4, 0, 0, 8, 0, 3, 0, 0, 1],
+                [7, 0, 0, 0, 2, 0, 0, 0, 6],
+                [0, 6, 0, 0, 0, 0, 2, 8, 0],
+                [0, 0, 0, 4, 1, 9, 0, 0, 5],
+                [0, 0, 0, 0, 8, 0, 0, 7, 9]
+            ])
+            break
+        elif choice == "own":
+            board = input_sudoku()
+            break
+        else:
+            print("\n❌ Invalid option. Please type 'own' or 'demo'.")
+            continue
+    
+    print(f"\n{"➖"*15}\n")
     print(f"Original Puzzle:\n{"-"*16}\n")
     print_board(board)
     
     if solve_board(board): 
         print(f"\n✅ Solved Sudoku Puzzle:\n{"-"*16}\n")
         print_board(board)
+        print()
     else:
         print("\n❌ No solution exists.")
 
